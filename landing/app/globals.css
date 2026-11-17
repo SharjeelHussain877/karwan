@@ -1,26 +1,198 @@
 @import "tailwindcss";
 
+/* Mountain palette (slate blue, pine, snow, sunrise): light by default, dark follows the system */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f4f7f9;
+  --foreground: #16222d;
+  --surface: #ffffff;
+  --line: #d3dce4;
+  --muted: #586a79;
+  --accent: #35607f;
+  --accent-strong: #274a65;
+  --accent-2: #3f8f77;
+  --accent-3: #e0894d;
+  --accent-soft: #e4edf3;
+  --on-accent: #ffffff;
+  --glow-1: rgba(63, 143, 119, 0.24);
+  --glow-2: rgba(224, 137, 77, 0.2);
 }
+
+/* Dark: explicit choice, or system preference when nothing is chosen */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: #0c131a;
+  --foreground: #e9eef3;
+  --surface: #142029;
+  --line: #273948;
+  --muted: #95a8b8;
+  --accent: #7fb4dc;
+  --accent-strong: #aad0ec;
+  --accent-2: #6cc4a4;
+  --accent-3: #f2a977;
+  --accent-soft: #172c3b;
+  --on-accent: #0a1722;
+  --glow-1: rgba(108, 196, 164, 0.2);
+  --glow-2: rgba(242, 169, 119, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --background: #0c131a;
+    --foreground: #e9eef3;
+    --surface: #142029;
+    --line: #273948;
+    --muted: #95a8b8;
+    --accent: #7fb4dc;
+    --accent-strong: #aad0ec;
+    --accent-2: #6cc4a4;
+    --accent-3: #f2a977;
+    --accent-soft: #172c3b;
+    --on-accent: #0a1722;
+    --glow-1: rgba(108, 196, 164, 0.2);
+    --glow-2: rgba(242, 169, 119, 0.16);
+  }
+}
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-glow-1: var(--glow-1);
+  --color-glow-2: var(--glow-2);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Growth animations for the SVG illustrations */
+@keyframes draw {
+  0% { stroke-dashoffset: 1; }
+  60%, 100% { stroke-dashoffset: 0; }
+}
+@keyframes rise {
+  0% { transform: scaleY(0); }
+  55%, 100% { transform: scaleY(1); }
+}
+@keyframes fade-in {
+  0%, 35% { opacity: 0; }
+  65%, 100% { opacity: 1; }
+}
+@keyframes pulse-ring {
+  0% { transform: scale(0.6); opacity: 0.7; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+@keyframes travel {
+  0% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: -24; }
+}
+.draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 4s ease-in-out infinite; }
+.rise { transform-box: fill-box; transform-origin: bottom; animation: rise 4s ease-in-out infinite; }
+.fade { animation: fade-in 4s ease-in-out infinite; }
+.pulse { transform-box: fill-box; transform-origin: center; animation: pulse-ring 2s ease-out infinite; }
+.float { animation: float 4s ease-in-out infinite; }
+.flow { stroke-dasharray: 6 6; animation: travel 1s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .draw { animation: none; stroke-dashoffset: 0; }
+  .rise, .fade, .pulse, .float, .flow { animation: none; }
+}
+
+@keyframes grow-x {
+  0% { transform: scaleX(0); }
+  55%, 100% { transform: scaleX(1); }
+}
+.grow-x { transform-box: fill-box; transform-origin: left; animation: grow-x 4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .grow-x { animation: none; } }
+
+/* Scroll reveal: content rises from the bottom as it enters the viewport */
+[data-js] [data-reveal] {
+  opacity: 0;
+  transform: translateY(48px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-js] [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Virtualization: skip rendering off-screen sections, and pause animations that are not visible */
+.cv {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 700px;
+}
+[data-js] [data-reveal]:not(.live) *,
+[data-hero].off * {
+  animation-play-state: paused !important;
+}
+
+/* Hero fades back as you scroll (--p is 0 → 1, set by the layout script) */
+[data-hero-content] {
+  opacity: calc(1 - var(--p, 0) * 1.2);
+  transform: scale(calc(1 - var(--p, 0) * 0.5));
+  filter: blur(calc(var(--p, 0) * 10px));
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-js] [data-reveal] { opacity: 1; transform: none; transition: none; }
+  [data-hero-content] { transform: none; filter: none; }
+}
+
+/* Cards */
+.card {
+  position: relative;
+  border-radius: 1.75rem;
+  padding: 0.75rem;
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    linear-gradient(160deg, var(--accent-2), var(--line) 38%, var(--line) 68%, var(--accent-3)) border-box;
+  box-shadow: 0 1px 2px rgba(22, 34, 45, 0.07), 0 24px 40px -28px var(--glow-1);
+  transition: translate 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  translate: 0 -6px;
+  box-shadow: 0 1px 2px rgba(22, 34, 45, 0.07), 0 34px 60px -26px var(--accent-2);
+}
+.card-art {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid var(--line);
+  padding: 1rem;
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--accent-soft), transparent 70%),
+    var(--background);
+}
+[data-js] .card[data-reveal] {
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    translate 0.3s ease,
+    box-shadow 0.3s ease;
+  transition-delay: var(--d, 0ms), var(--d, 0ms), 0ms, 0ms;
 }
