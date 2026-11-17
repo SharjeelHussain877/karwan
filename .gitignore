@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+**/node_modules/
+
+
+# Build output
+build/
+**/build/
+dist/
+**/dist/
+.next/
+**/.next/
+out/
+**/out/
+
+# Environment files
+.env
+.env.*
+**/.env
+**/.env.*
