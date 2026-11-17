@@ -14,8 +14,10 @@ const createRateLimiter = (
     limit,
     standardHeaders: "draft-8",
     legacyHeaders: false,
+    skip: () => process.env.NODE_ENV === "development",
     message: {
       success: false,
+      code: "RATE_LIMITED",
       message: `Too many ${label}. Please try again in ${minutes} ${unit}.`
     }
   });
@@ -24,7 +26,7 @@ const createRateLimiter = (
 // General API: 100 requests / 15 minutes
 export const globalLimiter = createRateLimiter(
   15 * 60 * 1000,
-  10,
+  100,
   "requests"
 );
 

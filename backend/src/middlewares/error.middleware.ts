@@ -6,6 +6,7 @@ import type {
     ErrorRequestHandler
   } from "express";
   
+  import { HttpError } from "../utils/http-error.js";
   import logger from "../utils/logger.js";
   
   export const errorHandler: ErrorRequestHandler = (
@@ -33,10 +34,16 @@ import type {
       "Request error"
     );
   
+    const code =
+      "code" in err && typeof err.code === "string" ? err.code : "ERROR";
+
     res.status(statusCode).json({
       success: false,
+      code,
+      // HttpError messages are written by us for the user, so they are always safe to show.
+      // Anything else that fails with a 5xx stays generic.
       message:
-        statusCode >= 500
+        statusCode >= 500 && !(err instanceof HttpError)
           ? "Internal Server Error"
           : err.message,
       ...(process.env.NODE_ENV === "development" && {

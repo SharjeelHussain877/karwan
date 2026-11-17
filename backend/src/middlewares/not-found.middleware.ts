@@ -8,6 +8,7 @@ export const notFound = (
 ) => {
   res.status(404).json({
     success: false,
+    code: "NOT_FOUND",
     message: "Resource not found",
     path: req.originalUrl
   });

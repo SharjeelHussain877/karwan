@@ -1,0 +1,52 @@
+# Starts every server for local development:  npm run dev:all
+#
+#   backend   http://localhost:9090   (API: http://localhost:9090/api)
+#   frontend  http://localhost:5173   (Vite app)
+#   landing   http://localhost:3000   (Next.js site)
+#
+# Source folders are bind-mounted, so edits hot-reload inside the containers.
+# node_modules stay inside the containers (anonymous volumes) so macOS binaries
+# on the host never clash with the Linux ones.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: npm run dev
+    env_file: ./backend/.env
+    environment:
+      CLIENT_URL: http://localhost:5173
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    command: npm run dev -- --host 0.0.0.0
+    environment:
+      # Called from the browser, so it points at the published backend port.
+      VITE_API_URL: http://localhost:9090/api
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+  landing:
+    build:
+      context: ./landing
+      dockerfile: Dockerfile.dev
+    command: npm run dev -- -H 0.0.0.0 -p 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./landing:/app
+      - /app/node_modules
+      - /app/.next
