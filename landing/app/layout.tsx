@@ -54,12 +54,15 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <footer className="border-t border-line px-6 py-10">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
             <p>© 2026 DadSmith. All rights reserved.</p>
-            <div className="flex items-center gap-6">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
               <Link href="/privacy-policy" className="transition-colors hover:text-foreground">
                 Privacy Policy
               </Link>
               <Link href="/terms-and-conditions" className="transition-colors hover:text-foreground">
                 Terms &amp; Conditions
+              </Link>
+              <Link href="/data-deletion" className="transition-colors hover:text-foreground">
+                Data Deletion
               </Link>
             </div>
           </div>
