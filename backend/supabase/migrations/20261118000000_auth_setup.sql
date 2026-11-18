@@ -1,4 +1,4 @@
--- DadSmith auth setup: the one migration to run.
+-- AdSync auth setup: the one migration to run.
 -- Supabase dashboard -> SQL Editor -> paste this whole file -> Run.
 -- Safe to run more than once.
 --

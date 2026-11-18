@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const CONTACT_EMAIL = "support@dadsmith.com";
+const CONTACT_EMAIL = "support@adsync.com";
 const UPDATED = "November 18, 2026";
 
 export const metadata: Metadata = {
-  title: "Data Deletion | DadSmith",
+  title: "Data Deletion | AdSync",
   description:
-    "How to disconnect your Google and Meta accounts and request deletion of your data from DadSmith.",
+    "How to disconnect your Google and Meta accounts and request deletion of your data from AdSync.",
 };
 
 type Section = { id: string; title: string; body?: string[]; list?: string[]; after?: string[] };
@@ -26,16 +26,16 @@ function linkify(text: string) {
 
 const intro = (
   <>
-    You are in control of your data. Use any of the options below to disconnect your Google and Meta accounts and have the data DadSmith holds about you deleted.
+    You are in control of your data. Use any of the options below to disconnect your Google and Meta accounts and have the data AdSync holds about you deleted.
   </>
 );
 
 const sections: Section[] = [
   {
     id: "disconnect",
-    title: "1. Disconnect inside DadSmith",
+    title: "1. Disconnect inside AdSync",
     list: [
-      "Sign in to the DadSmith dashboard.",
+      "Sign in to the AdSync dashboard.",
       "Open Settings, then Connected accounts.",
       "Choose Disconnect next to Google Ads or Meta.",
     ],
@@ -46,7 +46,7 @@ const sections: Section[] = [
     title: "2. Remove access from Google",
     list: [
       "Open https://myaccount.google.com/permissions",
-      "Select DadSmith.",
+      "Select AdSync.",
       "Choose Remove access.",
     ],
   },
@@ -55,7 +55,7 @@ const sections: Section[] = [
     title: "3. Remove access from Meta",
     list: [
       "Open https://www.facebook.com/settings?tab=business_integrations",
-      "Find DadSmith and choose Remove.",
+      "Find AdSync and choose Remove.",
       "Confirm the removal.",
     ],
     after: ["Removing the app from Meta triggers a deletion request to us, and we delete the related data within 30 days."],
@@ -63,7 +63,7 @@ const sections: Section[] = [
   {
     id: "request",
     title: "4. Ask us to delete everything",
-    body: ["To delete your DadSmith account and all data we hold about you, email " + CONTACT_EMAIL + " from your account email address with the subject \"Delete my data\". We confirm by email and complete deletion within 30 days. Limited records we are legally required to keep are retained only as long as the law requires."],
+    body: ["To delete your AdSync account and all data we hold about you, email " + CONTACT_EMAIL + " from your account email address with the subject \"Delete my data\". We confirm by email and complete deletion within 30 days. Limited records we are legally required to keep are retained only as long as the law requires."],
   },
   {
     id: "what-is-deleted",
@@ -71,7 +71,7 @@ const sections: Section[] = [
     list: [
       "OAuth access and refresh tokens.",
       "Google Ads and Meta data we stored, such as campaign, ad and performance data.",
-      "Campaign drafts and content you created in DadSmith.",
+      "Campaign drafts and content you created in AdSync.",
       "Your profile details and account.",
     ],
     after: ["Ads already published on Google or Meta stay in your ad accounts. Manage or remove them there. See our Privacy Policy for more detail."],

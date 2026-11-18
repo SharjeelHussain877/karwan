@@ -301,8 +301,8 @@ export function UsersPage() {
       <h1 className="text-2xl font-semibold tracking-tight">Users</h1>
       <p className="mt-2 text-muted-foreground">
         {canEdit
-          ? "Everyone else on DadSmith. Change a role, turn is_super_admin on or off, or deactivate an account."
-          : "Everyone else on DadSmith. Only the super admin can make changes."}
+          ? "Everyone else on AdSync. Change a role, turn is_super_admin on or off, or deactivate an account."
+          : "Everyone else on AdSync. Only the super admin can make changes."}
       </p>
 
       {showTable ? (
@@ -334,7 +334,7 @@ export function UsersPage() {
           <p className="max-w-sm text-sm text-muted-foreground">
             {error
               ? getErrorMessage(error)
-              : "Users will show up here once they join DadSmith."}
+              : "Users will show up here once they join AdSync."}
           </p>
         </div>
       )}

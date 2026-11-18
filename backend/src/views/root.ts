@@ -6,9 +6,9 @@ export const renderStatusPage = (): string => `<!DOCTYPE html>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#131313" />
-  <meta name="description" content="Dadsmith API service status and system information." />
+  <meta name="description" content="AdSync API service status and system information." />
 
-  <title>Dadsmith API | System Status</title>
+  <title>AdSync API | System Status</title>
 
   <style>
     :root {
@@ -274,7 +274,7 @@ export const renderStatusPage = (): string => `<!DOCTYPE html>
 
 <body>
   <section class="side left">
-    <div class="eyebrow">Dadsmith Developer Platform</div>
+    <div class="eyebrow">AdSync Developer Platform</div>
 
     <h1>Your backend<br />is online.</h1>
 
@@ -342,7 +342,7 @@ export const renderStatusPage = (): string => `<!DOCTYPE html>
   </section>
 
   <footer>
-    <span>Powered by <strong>Dadsmith</strong></span>
+    <span>Powered by <strong>AdSync</strong></span>
     <span>Backend service · v1.0.0</span>
   </footer>
 </body>

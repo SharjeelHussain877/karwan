@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DadSmith | Manage Google & Meta Ads, Securely",
+  title: "AdSync | Manage Google & Meta Ads, Securely",
   description:
-    "DadSmith connects to your Google and Meta ads accounts to manage campaigns and publish ads for you. Your data is never shared with anyone.",
+    "AdSync connects to your Google and Meta ads accounts to manage campaigns and publish ads for you. Your data is never shared with anyone.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -53,7 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
 
         <footer className="border-t border-line px-6 py-10">
           <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-muted sm:flex-row">
-            <p>© 2026 DadSmith. All rights reserved.</p>
+            <p>© 2026 AdSync. All rights reserved.</p>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
               <Link href="/privacy-policy" className="transition-colors hover:text-foreground">
                 Privacy Policy

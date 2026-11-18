@@ -67,7 +67,7 @@ export function AppSidebar() {
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sm font-semibold text-sidebar-primary-foreground">
                   D
                 </div>
-                <span className="text-base font-semibold tracking-tight">DadSmith</span>
+                <span className="text-base font-semibold tracking-tight">AdSync</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           </SidebarMenu>

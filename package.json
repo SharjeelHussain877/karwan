@@ -1,7 +1,7 @@
 {
-  "name": "dadsmith",
+  "name": "adsync",
   "private": true,
-  "description": "DadSmith monorepo: backend API, frontend app and landing site.",
+  "description": "AdSync monorepo: backend API, frontend app and landing site.",
   "scripts": {
     "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend && npm install --prefix landing",
     "dev:all": "concurrently --kill-others-on-fail -n backend,frontend,landing -c cyan,magenta,yellow \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\" \"npm run dev --prefix landing\"",

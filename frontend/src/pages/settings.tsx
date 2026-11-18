@@ -219,7 +219,7 @@ export function SettingsPage() {
       <Card className="mt-6">
         <CardHeader>
           <CardTitle>Session</CardTitle>
-          <CardDescription>Sign out of DadSmith on this device.</CardDescription>
+          <CardDescription>Sign out of AdSync on this device.</CardDescription>
         </CardHeader>
         <CardContent>
           <AlertDialog>
@@ -233,7 +233,7 @@ export function SettingsPage() {
             />
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Sign out of DadSmith?</AlertDialogTitle>
+                <AlertDialogTitle>Sign out of AdSync?</AlertDialogTitle>
                 <AlertDialogDescription>
                   You will need to sign in again to manage your campaigns.
                 </AlertDialogDescription>

@@ -24,7 +24,7 @@ router.get(
   apiReference({
     content: openApiDocument,
     theme: "alternate",
-    pageTitle: "Dadsmith API Reference",
+    pageTitle: "AdSync API Reference",
     defaultHttpClient: { targetKey: "js", clientKey: "axios" },
     hiddenClients: true,
     hideTestRequestButton: true,

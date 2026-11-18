@@ -3,7 +3,7 @@
  * This flag records "a login succeeded in this browser", so /auth/me and
  * /auth/refresh are only called for users who actually logged in.
  */
-const KEY = "dadsmith:session"
+const KEY = "adsync:session"
 
 export function isSessionActive(): boolean {
   try {

@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const CONTACT_EMAIL = "support@dadsmith.com";
+const CONTACT_EMAIL = "support@adsync.com";
 const UPDATED = "November 18, 2026";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | DadSmith",
+  title: "Privacy Policy | AdSync",
   description:
-    "How DadSmith accesses, uses, stores and protects data from your Google Ads and Meta accounts, and how to delete it.",
+    "How AdSync accesses, uses, stores and protects data from your Google Ads and Meta accounts, and how to delete it.",
 };
 
 type Section = { id: string; title: string; body?: string[]; list?: string[]; after?: string[] };
@@ -26,7 +26,7 @@ function linkify(text: string) {
 
 const intro = (
   <>
-    DadSmith gives you a user-friendly dashboard to create campaigns and publish ads to Google and Meta smoothly and securely. To do that, you connect your accounts using the official Google and Meta OAuth sign-in. This policy explains exactly what data we access, why, how we protect it, and how you can delete it. In short: we use your data only to provide the service to you, and we never sell it or share it with anyone for their own purposes.
+    AdSync gives you a user-friendly dashboard to create campaigns and publish ads to Google and Meta smoothly and securely. To do that, you connect your accounts using the official Google and Meta OAuth sign-in. This policy explains exactly what data we access, why, how we protect it, and how you can delete it. In short: we use your data only to provide the service to you, and we never sell it or share it with anyone for their own purposes.
   </>
 );
 
@@ -35,7 +35,7 @@ const sections: Section[] = [
     id: "who-we-are",
     title: "1. Who we are",
     body: [
-      "DadSmith (\"DadSmith\", \"we\", \"us\") is a campaign management and ad publishing dashboard for Google Ads and Meta Ads. This policy applies to our website, our dashboard and any data we receive from Google and Meta on your behalf.",
+      "AdSync (\"AdSync\", \"we\", \"us\") is a campaign management and ad publishing dashboard for Google Ads and Meta Ads. This policy applies to our website, our dashboard and any data we receive from Google and Meta on your behalf.",
       "Contact: " + CONTACT_EMAIL,
     ],
   },
@@ -44,11 +44,11 @@ const sections: Section[] = [
     title: "2. Data we access",
     body: ["When you connect an account through OAuth, we only request the permissions needed to run the features you use. Depending on what you connect, this can include:"],
     list: [
-      "Basic profile details from your Google or Meta login: name, email address and account ID, used to identify you and secure your DadSmith account.",
+      "Basic profile details from your Google or Meta login: name, email address and account ID, used to identify you and secure your AdSync account.",
       "Google Ads data (via the Google Ads API): the ad accounts you can access, and their campaigns, ad groups, ads, keywords, budgets, bidding settings and performance metrics.",
       "Meta data (via the Meta Marketing API): the ad accounts and business assets you can access, and their campaigns, ad sets, ads, creatives, audiences, and performance insights, plus the Pages you choose to run ads from.",
       "OAuth access and refresh tokens that let us act for you until you disconnect. Tokens are stored encrypted.",
-      "Content you create in DadSmith, such as campaign drafts, ad copy, images and targeting choices.",
+      "Content you create in AdSync, such as campaign drafts, ad copy, images and targeting choices.",
       "Basic technical data such as IP address, browser type and logs, used for security, fraud prevention and reliability.",
     ],
   },
@@ -69,7 +69,7 @@ const sections: Section[] = [
     id: "google-limited-use",
     title: "4. Google user data and Limited Use",
     body: [
-      "DadSmith's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy (https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.",
+      "AdSync's use and transfer to any other app of information received from Google APIs will adhere to the Google API Services User Data Policy (https://developers.google.com/terms/api-services-user-data-policy), including the Limited Use requirements.",
       "In particular: we use Google user data only to provide and improve the user-facing features described above; we do not transfer it to others except as needed to provide those features, to comply with law, or as part of a merger or acquisition with your notice; we do not use it for serving ads; and no humans read it unless you give us permission for specific data, it is necessary for security or abuse investigation, or the law requires it.",
     ],
   },
@@ -83,7 +83,7 @@ const sections: Section[] = [
   {
     id: "sharing",
     title: "6. Sharing your data",
-    body: ["We do not sell, rent or trade your data, and we do not share it with anyone for their own use. The only situations where data moves beyond DadSmith are:"],
+    body: ["We do not sell, rent or trade your data, and we do not share it with anyone for their own use. The only situations where data moves beyond AdSync are:"],
     list: [
       "To Google and Meta themselves, when you tell us to publish or change a campaign. This is the purpose of the service.",
       "To infrastructure providers (for example hosting and database services) that process data only on our behalf, under confidentiality and security obligations, and may not use it for any other purpose.",
@@ -107,7 +107,7 @@ const sections: Section[] = [
     list: [
       "We keep Google and Meta data only while your account is connected and for as long as needed to provide the service.",
       "When you disconnect an account, we delete its OAuth tokens immediately and delete the associated Google and Meta data within 30 days.",
-      "When you delete your DadSmith account, we delete all data we hold about you within 30 days, except limited records we must keep by law.",
+      "When you delete your AdSync account, we delete all data we hold about you within 30 days, except limited records we must keep by law.",
     ],
     after: ["You can request deletion at any time. See our Data Deletion page at /data-deletion for step-by-step instructions."],
   },
@@ -116,9 +116,9 @@ const sections: Section[] = [
     title: "9. Revoking access",
     body: ["You can withdraw our access at any time, without contacting us:"],
     list: [
-      "Google: open https://myaccount.google.com/permissions, select DadSmith and choose Remove access.",
-      "Meta: open https://www.facebook.com/settings?tab=business_integrations, select DadSmith and choose Remove.",
-      "Or disconnect the account inside the DadSmith dashboard.",
+      "Google: open https://myaccount.google.com/permissions, select AdSync and choose Remove access.",
+      "Meta: open https://www.facebook.com/settings?tab=business_integrations, select AdSync and choose Remove.",
+      "Or disconnect the account inside the AdSync dashboard.",
     ],
     after: ["Once access is revoked, we can no longer read or change your ad accounts."],
   },
@@ -130,7 +130,7 @@ const sections: Section[] = [
   {
     id: "children",
     title: "11. Children",
-    body: ["DadSmith is for businesses and is not directed to anyone under 18. We do not knowingly collect data from children."],
+    body: ["AdSync is for businesses and is not directed to anyone under 18. We do not knowingly collect data from children."],
   },
   {
     id: "changes",

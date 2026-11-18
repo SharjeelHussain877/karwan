@@ -419,7 +419,7 @@ const authPaths = {
 export const openApiDocument: Record<string, unknown> = {
   openapi: "3.1.0",
   info: {
-    title: "Dadsmith API",
+    title: "AdSync API",
     version: "1.0.0",
     description:
       "Backend API powering Google Ads campaign management.\n\nAuthentication uses httpOnly cookies set by `/auth/login`. Every error looks like `{ success: false, code, message }`."

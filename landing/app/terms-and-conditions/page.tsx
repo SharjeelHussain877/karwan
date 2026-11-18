@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const CONTACT_EMAIL = "support@dadsmith.com";
+const CONTACT_EMAIL = "support@adsync.com";
 const UPDATED = "November 18, 2026";
 
 export const metadata: Metadata = {
-  title: "Terms & Conditions | DadSmith",
+  title: "Terms & Conditions | AdSync",
   description:
-    "The terms that apply when you connect your Google and Meta ad accounts and use the DadSmith dashboard to create and publish campaigns.",
+    "The terms that apply when you connect your Google and Meta ad accounts and use the AdSync dashboard to create and publish campaigns.",
 };
 
 type Section = { id: string; title: string; body?: string[]; list?: string[]; after?: string[] };
@@ -26,7 +26,7 @@ function linkify(text: string) {
 
 const intro = (
   <>
-    These Terms &amp; Conditions govern your use of DadSmith, a dashboard that lets you create campaigns and publish ads to Google and Meta smoothly and securely. By creating an account, connecting an ad account or using the service, you agree to these terms and to our Privacy Policy.
+    These Terms &amp; Conditions govern your use of AdSync, a dashboard that lets you create campaigns and publish ads to Google and Meta smoothly and securely. By creating an account, connecting an ad account or using the service, you agree to these terms and to our Privacy Policy.
   </>
 );
 
@@ -34,7 +34,7 @@ const sections: Section[] = [
   {
     id: "acceptance",
     title: "1. Acceptance of terms",
-    body: ["If you do not agree to these terms, do not use DadSmith. If you use DadSmith on behalf of a company, you confirm you have authority to bind that company."],
+    body: ["If you do not agree to these terms, do not use AdSync. If you use AdSync on behalf of a company, you confirm you have authority to bind that company."],
   },
   {
     id: "eligibility",
@@ -44,7 +44,7 @@ const sections: Section[] = [
   {
     id: "service",
     title: "3. The service",
-    body: ["DadSmith provides a user-friendly dashboard where you can:"],
+    body: ["AdSync provides a user-friendly dashboard where you can:"],
     list: [
       "connect your Google Ads and Meta accounts using official OAuth sign-in;",
       "create campaigns, ad sets and ads with guided steps;",
@@ -57,14 +57,14 @@ const sections: Section[] = [
     id: "authorisation",
     title: "4. Connecting your accounts and authorisation",
     body: [
-      "When you connect an account, you authorise DadSmith to read and write to it within the permissions you approve on the Google or Meta consent screen. We act only on your instructions and for the purposes described in our Privacy Policy.",
+      "When you connect an account, you authorise AdSync to read and write to it within the permissions you approve on the Google or Meta consent screen. We act only on your instructions and for the purposes described in our Privacy Policy.",
       "You can revoke this authorisation at any time from your Google or Meta account settings, or by disconnecting the account in the dashboard. Keep your login credentials secure and tell us immediately about any unauthorised use.",
     ],
   },
   {
     id: "your-content",
     title: "5. Your campaigns and content",
-    body: ["You are solely responsible for the campaigns, ad copy, images, landing pages, targeting, budgets and any other content you create or publish through DadSmith. You confirm that you have the rights to use it and that it:"],
+    body: ["You are solely responsible for the campaigns, ad copy, images, landing pages, targeting, budgets and any other content you create or publish through AdSync. You confirm that you have the rights to use it and that it:"],
     list: [
       "complies with the Google Ads policies, the Meta Advertising Standards and Meta Platform Terms, and the Google API Services Terms of Service;",
       "complies with applicable laws, including consumer protection, privacy and advertising rules;",
@@ -75,14 +75,14 @@ const sections: Section[] = [
   {
     id: "ad-spend",
     title: "6. Ad spend and billing",
-    body: ["Advertising costs are charged directly by Google and Meta to the payment method on your ad accounts, under their terms. DadSmith does not control or guarantee pricing. You are responsible for setting and monitoring your budgets."],
+    body: ["Advertising costs are charged directly by Google and Meta to the payment method on your ad accounts, under their terms. AdSync does not control or guarantee pricing. You are responsible for setting and monitoring your budgets."],
   },
   {
     id: "acceptable-use",
     title: "7. Acceptable use",
     body: ["You agree not to:"],
     list: [
-      "use DadSmith for illegal, misleading or prohibited advertising;",
+      "use AdSync for illegal, misleading or prohibited advertising;",
       "access accounts or data you are not authorised to use;",
       "interfere with, overload or reverse engineer the service, or bypass its security;",
       "resell or provide the service to others without our written permission.",
@@ -91,7 +91,7 @@ const sections: Section[] = [
   {
     id: "third-party",
     title: "8. Third-party platforms",
-    body: ["DadSmith depends on Google and Meta. Their services, APIs, policies and availability are outside our control and may change, which can affect features. Your use of Google and Meta remains subject to their own terms."],
+    body: ["AdSync depends on Google and Meta. Their services, APIs, policies and availability are outside our control and may change, which can affect features. Your use of Google and Meta remains subject to their own terms."],
   },
   {
     id: "privacy",
@@ -101,7 +101,7 @@ const sections: Section[] = [
   {
     id: "ip",
     title: "10. Intellectual property",
-    body: ["DadSmith, its software, design and branding belong to us. You keep ownership of your content and data, and grant us a limited licence to process it solely to provide the service to you."],
+    body: ["AdSync, its software, design and branding belong to us. You keep ownership of your content and data, and grant us a limited licence to process it solely to provide the service to you."],
   },
   {
     id: "no-guarantee",
@@ -112,19 +112,19 @@ const sections: Section[] = [
     id: "disclaimer",
     title: "12. Disclaimer and limitation of liability",
     body: [
-      "DadSmith is provided \"as is\" and \"as available\" without warranties of any kind, to the extent permitted by law.",
-      "To the extent permitted by law, DadSmith is not liable for indirect, incidental or consequential losses, including lost profit, ad spend, revenue or data, and our total liability is limited to the amount you paid us in the 12 months before the claim.",
+      "AdSync is provided \"as is\" and \"as available\" without warranties of any kind, to the extent permitted by law.",
+      "To the extent permitted by law, AdSync is not liable for indirect, incidental or consequential losses, including lost profit, ad spend, revenue or data, and our total liability is limited to the amount you paid us in the 12 months before the claim.",
     ],
   },
   {
     id: "indemnity",
     title: "13. Indemnity",
-    body: ["You agree to indemnify DadSmith against claims arising from your content, your campaigns or your breach of these terms or of Google or Meta policies."],
+    body: ["You agree to indemnify AdSync against claims arising from your content, your campaigns or your breach of these terms or of Google or Meta policies."],
   },
   {
     id: "termination",
     title: "14. Termination",
-    body: ["You may stop using DadSmith and disconnect your accounts at any time. We may suspend or end access if you breach these terms or if required by Google, Meta or law. On termination, your data is handled as described in our Privacy Policy and on the Data Deletion page."],
+    body: ["You may stop using AdSync and disconnect your accounts at any time. We may suspend or end access if you breach these terms or if required by Google, Meta or law. On termination, your data is handled as described in our Privacy Policy and on the Data Deletion page."],
   },
   {
     id: "law",
@@ -134,7 +134,7 @@ const sections: Section[] = [
   {
     id: "changes",
     title: "16. Changes to these terms",
-    body: ["We may update these terms. We will post the new version here with a new date and notify you of material changes. Continuing to use DadSmith after changes means you accept them."],
+    body: ["We may update these terms. We will post the new version here with a new date and notify you of material changes. Continuing to use AdSync after changes means you accept them."],
   },
   {
     id: "contact",

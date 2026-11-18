@@ -14,7 +14,7 @@ export function AuthLayout({ title, description, children, footer }: Props) {
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted/40 p-6">
       <Link to="/" className="text-xl font-semibold tracking-tight">
-        DadSmith
+        AdSync
       </Link>
 
       <Card className="w-full max-w-md">

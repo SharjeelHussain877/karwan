@@ -41,7 +41,7 @@ export function VerifyEmailPage() {
         setError(getErrorMessage(result.error))
         return
       }
-      toast("Email verified. Welcome to DadSmith!")
+      toast("Email verified. Welcome to AdSync!")
       navigate("/", { replace: true })
     })
   }, [hasToken, tokens, verifyEmail, navigate])

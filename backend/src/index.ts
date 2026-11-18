@@ -6,7 +6,7 @@ import { ENV } from "./constants/index.js";
 
 const server = app.listen(ENV.PORT, () => {
   console.log("\n");
-  console.log(chalk.bold.cyan("  DADSMITH API"));
+  console.log(chalk.bold.cyan("  ADSYNC API"));
   console.log(chalk.gray("  ─────────────────────────────"));
   console.log(chalk.bold("  Status:    "), chalk.green("● Running"));
   console.log(
