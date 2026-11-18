@@ -53,7 +53,7 @@ function MetaIcon({ className = "h-5 w-8" }: { className?: string }) {
 /* ---------- Animated SVG illustrations (growth over time) ---------- */
 
 const HeroArt = (
-  <svg viewBox="0 0 800 440" className="mx-auto h-auto max-h-[30svh] w-full" role="img" aria-label="Dashboard where campaigns are created and ads are published">
+  <svg viewBox="0 0 800 440" className="mx-auto h-auto w-full" role="img" aria-label="Dashboard where campaigns are created and ads are published">
     <defs>
       <linearGradient id="dash-area" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0" stopColor="var(--accent-2)" stopOpacity="0.35" />
@@ -229,17 +229,17 @@ export default function Home() {
   return (
     <main className="flex-1">
       {/* Hero: stays pinned, zooms out and fades away while you scroll, then the rest rises in */}
-      <section data-hero suppressHydrationWarning className="relative h-[150svh]">
-        <div className="sticky top-0 isolate h-svh overflow-hidden">
+      <section data-hero suppressHydrationWarning className="relative md:h-[150svh]">
+        <div className="isolate overflow-hidden md:sticky md:top-0 md:h-svh">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute left-1/2 top-[-10rem] h-[32rem] w-[52rem] -translate-x-1/2 rounded-full bg-glow-1 blur-[120px]" />
           <div className="absolute right-[-8rem] top-40 h-72 w-72 rounded-full bg-glow-2 blur-[100px]" />
           <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--line)_1px,transparent_1px),linear-gradient(to_bottom,var(--line)_1px,transparent_1px)] bg-[size:48px_48px] opacity-60 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
         </div>
 
-        <div data-hero-content className="flex h-full flex-col items-center justify-center px-6 pb-8 pt-20">
+        <div data-hero-content className="flex min-h-svh flex-col items-center justify-center px-5 pb-10 pt-20 sm:px-6 md:h-full md:min-h-0 md:pb-8 md:pt-24">
           <div className="mx-auto max-w-4xl text-center">
-            <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl">
               Connect once.
               <br />
               <span className="bg-gradient-to-r from-accent via-accent-2 to-accent-3 bg-clip-text text-transparent">
@@ -249,35 +249,39 @@ export default function Home() {
             <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg">
               Connect your Meta and Google accounts through secure OAuth, then create campaigns and publish ads from one friendly dashboard. We read and write your ads on your behalf and manage campaigns to help them grow, and your data will never be shared with anyone.
             </p>
-            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
-              <a href="#how-it-works" className="rounded-full bg-accent px-7 py-3 text-sm font-semibold text-on-accent transition hover:bg-accent-strong">
+            <div className="mt-7 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
+              <a href="#how-it-works" className="w-full rounded-full text-center sm:w-auto bg-accent px-7 py-3 text-sm font-semibold text-on-accent transition hover:bg-accent-strong">
                 See how it works
               </a>
-              <Link href="/privacy-policy" className="rounded-full border border-line px-7 py-3 text-sm font-semibold text-foreground transition hover:bg-accent-soft">
+              <Link href="/privacy-policy" className="w-full rounded-full border border-line text-center sm:w-auto px-7 py-3 text-sm font-semibold text-foreground transition hover:bg-accent-soft">
                 Read our privacy policy
               </Link>
             </div>
-            <div className="mt-6 flex items-center justify-center gap-5 text-sm text-muted">
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted">
               <span>Connects with</span>
-              <span className="flex items-center gap-2 font-medium text-foreground">
-                <GoogleIcon /> Google Ads
+              <span aria-label="Google Ads" className="flex items-center gap-2 font-medium text-foreground">
+                <GoogleIcon /> <span className="hidden sm:inline">Google Ads</span>
               </span>
-              <span className="flex items-center gap-2 font-medium text-foreground">
-                <MetaIcon /> Meta Ads
+              <span aria-label="Meta Ads" className="flex items-center gap-2 font-medium text-foreground">
+                <MetaIcon /> <span className="hidden sm:inline">Meta Ads</span>
               </span>
             </div>
           </div>
 
-          <div data-reveal suppressHydrationWarning className="mx-auto mt-8 w-full max-w-3xl rounded-3xl border border-line bg-surface p-3 shadow-sm">
-            {HeroArt}
-          </div>
         </div>
         </div>
       </section>
 
-      <div className="relative z-10 -mt-[55svh]">
+      <div className="relative z-10 md:-mt-[55svh]">
+      {/* Dashboard preview */}
+      <section className="px-5 pt-6 sm:px-6 md:pt-0">
+        <div data-reveal suppressHydrationWarning className="mx-auto w-full max-w-4xl rounded-3xl border border-line bg-surface p-2 shadow-sm sm:p-3">
+          {HeroArt}
+        </div>
+      </section>
+
       {/* Features */}
-      <section className="cv px-6 py-20">
+      <section className="cv px-5 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
           {features.map((f, i) => (
             <div key={f.title} data-reveal suppressHydrationWarning style={{ "--d": `${i * 120}ms` } as React.CSSProperties} className="card group">
@@ -292,13 +296,13 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" className="cv px-6 py-20">
+      <section id="how-it-works" className="cv px-5 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div data-reveal suppressHydrationWarning className="mx-auto max-w-2xl text-center">
             <h2 className="text-3xl font-semibold tracking-tight sm:text-5xl">How it works</h2>
             <p className="mt-4 text-muted">From connecting your accounts to live ads, every step is smooth and simple.</p>
           </div>
-          <div className="mt-14 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:mt-14 md:grid-cols-3">
             {steps.map((s, i) => (
               <div key={s.n} data-reveal suppressHydrationWarning style={{ "--d": `${i * 120}ms` } as React.CSSProperties} className="card group">
                 <div className="card-art">
@@ -316,8 +320,8 @@ export default function Home() {
       </section>
 
       {/* Trust */}
-      <section className="cv px-6 py-20">
-        <div data-reveal suppressHydrationWarning className="mx-auto max-w-4xl rounded-[2rem] border border-line bg-gradient-to-br from-accent-soft via-surface to-surface p-10 text-center sm:p-16">
+      <section className="cv px-5 py-14 sm:px-6 sm:py-20">
+        <div data-reveal suppressHydrationWarning className="mx-auto max-w-4xl rounded-[2rem] border border-line bg-gradient-to-br from-accent-soft via-surface to-surface p-6 text-center sm:p-16">
           {TrustArt}
           <h2 className="mt-8 text-3xl font-semibold tracking-tight sm:text-4xl">Securely managed. Never shared.</h2>
           <p className="mx-auto mt-5 max-w-xl leading-relaxed text-muted">

@@ -82,6 +82,19 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  overflow-x: clip;
+  overflow-wrap: break-word;
+}
+
+/* Long URLs and emails must wrap instead of widening the page on phones */
+main a,
+main li,
+main p {
+  overflow-wrap: anywhere;
 }
 
 /* Growth animations for the SVG illustrations */
@@ -149,12 +162,15 @@ html {
   animation-play-state: paused !important;
 }
 
-/* Hero fades back as you scroll (--p is 0 → 1, set by the layout script) */
-[data-hero-content] {
-  opacity: calc(1 - var(--p, 0) * 1.2);
-  transform: scale(calc(1 - var(--p, 0) * 0.5));
-  filter: blur(calc(var(--p, 0) * 10px));
-  will-change: opacity, transform;
+/* Hero fades back as you scroll (--p is 0 → 1, set by the layout script).
+   Only where the hero is pinned (md and up); on phones it scrolls normally. */
+@media (min-width: 768px) {
+  [data-hero-content] {
+    opacity: calc(1 - var(--p, 0) * 1.2);
+    transform: scale(calc(1 - var(--p, 0) * 0.5));
+    filter: blur(calc(var(--p, 0) * 10px));
+    will-change: opacity, transform;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -174,9 +190,11 @@ html {
   box-shadow: 0 1px 2px rgba(22, 34, 45, 0.07), 0 24px 40px -28px var(--glow-1);
   transition: translate 0.3s ease, box-shadow 0.3s ease;
 }
-.card:hover {
-  translate: 0 -6px;
-  box-shadow: 0 1px 2px rgba(22, 34, 45, 0.07), 0 34px 60px -26px var(--accent-2);
+@media (hover: hover) {
+  .card:hover {
+    translate: 0 -6px;
+    box-shadow: 0 1px 2px rgba(22, 34, 45, 0.07), 0 34px 60px -26px var(--accent-2);
+  }
 }
 .card-art {
   position: relative;

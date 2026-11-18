@@ -157,7 +157,7 @@ export default function Page() {
         <p className="mt-3 text-sm text-muted">Last updated: {UPDATED}</p>
         <p className="mt-6 leading-relaxed text-muted">{intro}</p>
 
-        <nav aria-label="Contents" className="mt-8 rounded-2xl border border-line bg-surface p-6">
+        <nav aria-label="Contents" className="mt-8 sm:rounded-2xl sm:border sm:border-line sm:bg-surface sm:p-6">
           <p className="text-sm font-semibold">Contents</p>
           <ol className="mt-3 grid gap-x-6 gap-y-1.5 text-sm text-muted sm:grid-cols-2">
             {sections.map((s) => (
@@ -172,7 +172,7 @@ export default function Page() {
 
         <div className="mt-10 space-y-6">
           {sections.map((s) => (
-            <section key={s.id} id={s.id} data-reveal suppressHydrationWarning className="scroll-mt-24 rounded-2xl border border-line bg-surface p-6 sm:p-8">
+            <section key={s.id} id={s.id} data-reveal suppressHydrationWarning className="scroll-mt-24 border-t border-line pt-6 sm:rounded-2xl sm:border sm:bg-surface sm:p-8">
               <h2 className="text-lg font-semibold">{s.title}</h2>
               <div className="mt-3 space-y-3 leading-relaxed text-muted">
                 {s.body?.map((p) => <p key={p}>{linkify(p)}</p>)}
