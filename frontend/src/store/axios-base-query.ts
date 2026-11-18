@@ -10,13 +10,10 @@ type Args = {
   body: object | null
 }
 
-/** RTK Query base query that sends every request through the shared axios instance. */
 export const axiosBaseQuery =
   (): BaseQueryFn<Args, object, ApiError> =>
   async ({ url, method, body }) => {
     try {
-      // A body-less request must not send a JSON "null" body: the API rejects it with 400.
-      // A file is sent as-is, with its own content type.
       const result =
         body === null
           ? await api.request<object>({ url, method })
@@ -32,7 +29,6 @@ export const axiosBaseQuery =
                   url,
                   method,
                   data: body,
-                  // The browser adds the multipart boundary itself.
                   headers: { "Content-Type": "multipart/form-data" },
                 })
               : await api.request<object>({ url, method, data: body })

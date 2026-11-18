@@ -7,13 +7,11 @@ import { SidebarInset, SidebarProvider, useSidebar } from "@/components/ui/sideb
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
 
-/** True while the sidebar is hidden (on phones that is whenever the sheet is not open). */
 function useSidebarClosed(): boolean {
   const { open, openMobile, isMobile } = useSidebar()
   return isMobile ? !openMobile : !open
 }
 
-/** When the sidebar is closed, this hamburger is all that is left on screen. */
 function OpenSidebarButton() {
   const { toggleSidebar } = useSidebar()
   const closed = useSidebarClosed()
@@ -33,7 +31,6 @@ function OpenSidebarButton() {
   )
 }
 
-/** The page. Room is left at the top only while the hamburger is showing. */
 function PageContent() {
   const closed = useSidebarClosed()
 
@@ -44,7 +41,6 @@ function PageContent() {
   )
 }
 
-/** Shell for every signed-in page: sidebar on the left, page on the right. No top bar. */
 export function AppLayout() {
   return (
     <TooltipProvider>

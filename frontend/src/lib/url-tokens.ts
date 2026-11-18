@@ -1,10 +1,3 @@
-/**
- * Supabase email links arrive as either
- *   #access_token=…&refresh_token=…&type=signup|recovery   (implicit flow), or
- *   ?token_hash=…&type=…                                    (custom email template)
- * and failures as #error=…&error_description=…
- * Read them once, then scrub them from the address bar.
- */
 export type UrlTokens = {
   accessToken: string
   refreshToken: string

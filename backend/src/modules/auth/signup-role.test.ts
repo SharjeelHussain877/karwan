@@ -48,22 +48,19 @@ describe("sign up never takes a role from the client", () => {
     expect(signUpSchema.safeParse(base).success).toBe(true);
   });
 
-  it.each(["role", "app_metadata", "is_super_admin", "is_super_admin"])("rejects a %s field", (field) => {
+  it.each(["role", "roles", "app_metadata", "is_super_admin"])("rejects a %s field", (field) => {
     expect(signUpSchema.safeParse({ ...base, [field]: "super_admin" }).success).toBe(false);
   });
 
   it("always creates the account as a plain user, whatever was passed in", async () => {
-    // Even if a role slipped past validation, the service ignores it.
     const sneaky = { ...base, role: "super_admin", app_metadata: { role: "super_admin" } };
     await signUp(sneaky);
 
-    // Nothing but name goes into the sign up call's metadata.
     const call = supabase.signUp.mock.calls[0];
     expect(call).toBeDefined();
     expect(call![0].options.data).toEqual({ name: "Jane" });
 
-    // The server then writes the role itself: user.
     expect(supabase.updateUserById).toHaveBeenCalledTimes(1);
-    expect(supabase.updateUserById).toHaveBeenCalledWith("u1", { app_metadata: { role: "user" } });
+    expect(supabase.updateUserById).toHaveBeenCalledWith("u1", { app_metadata: { roles: ["user"] } });
   });
 });

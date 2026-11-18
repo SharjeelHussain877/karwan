@@ -16,7 +16,6 @@ type Props = {
   onCancel: () => void
 }
 
-/** The drawer body. Remounted for every image, so its state always starts fresh. */
 export function CropEditor({ file, src, options, onApply, onCancel }: Props) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState(1)
@@ -37,8 +36,6 @@ export function CropEditor({ file, src, options, onApply, onCancel }: Props) {
   }
 
   return (
-    // The drawer clips anything taller than the screen, so the middle scrolls
-    // while the header and the Apply / Cancel buttons stay pinned in view.
     <div className="mx-auto flex min-h-0 w-full max-w-md flex-1 flex-col">
       <DrawerHeader className="shrink-0">
         <DrawerTitle>{options.title}</DrawerTitle>
@@ -46,8 +43,6 @@ export function CropEditor({ file, src, options, onApply, onCancel }: Props) {
       </DrawerHeader>
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-4 pb-4">
-        {/* Dragging here moves the image, so it must not also swipe the drawer closed.
-            The box shrinks on short screens (never taller than 45% of the height). */}
         <div
           data-base-ui-swipe-ignore
           className="relative mx-auto aspect-square w-[min(100%,45svh)] shrink-0 overflow-hidden rounded-xl bg-black"

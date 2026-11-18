@@ -13,7 +13,6 @@ import { useResetPasswordMutation } from "@/store/api"
 export function ResetPasswordPage() {
   const navigate = useNavigate()
   const [resetPassword] = useResetPasswordMutation()
-  // Read once: the tokens are removed from the address bar right away.
   const [tokens] = useState(readUrlTokens)
 
   if (tokens.error !== "" || (tokens.accessToken === "" && tokens.tokenHash === "")) {

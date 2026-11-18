@@ -5,7 +5,7 @@ import { ENV } from "../../constants/index.js";
 import { HttpError } from "../../utils/http-error.js";
 import logger from "../../utils/logger.js";
 import { warnMigrationMissing } from "../../utils/migration-warning.js";
-import { buildAppMetadata, isSuperAdminRole, readAppMetadata, type Role } from "./roles.js";
+import { buildAppMetadata, readAppMetadata, type Role } from "./roles.js";
 
 const verifyUrl = `${ENV.CLIENT_URL.split(",")[0]!.trim()}/verify-email`;
 const resetUrl = `${ENV.CLIENT_URL.split(",")[0]!.trim()}/reset-password`;
@@ -15,7 +15,6 @@ const readName = (user: User): string => {
   return typeof name === "string" ? name : "";
 };
 
-/** Profile photo URL kept in user_metadata (no table); "" when none. */
 const readAvatarUrl = (user: User): string => {
   const url: unknown = user.user_metadata.avatar_url;
   return typeof url === "string" ? url : "";
@@ -34,28 +33,20 @@ export type PublicUser = {
   phone: string;
   date_of_birth: string;
   email_verified: boolean;
-  role: Role;
+  roles: Role[];
   is_super_admin: boolean;
-  /** false while the account is deactivated (banned) and cannot sign in. */
   is_active: boolean;
   created_at: string;
 };
 
-/** A user is active unless a ban is set and has not run out yet. */
 export const isAccountActive = (bannedUntil: string | null | undefined): boolean =>
   !bannedUntil || new Date(bannedUntil) <= new Date();
 
-/**
- * auth.users.is_super_admin. Supabase's Admin API cannot read or write this column,
- * so it goes through a small SQL function (see supabase/migrations). Until that
- * migration has been run, dev and super_admin accounts count as on, which is the
- * same starting point the migration sets.
- */
-export const readIsSuperAdmin = async (userId: string, role: Role): Promise<boolean> => {
+export const readIsSuperAdmin = async (userId: string): Promise<boolean> => {
   const { data, error } = await supabaseAdmin().rpc("admin_get_is_super_admin", { target: userId });
   if (error) {
     warnMigrationMissing("admin_get_is_super_admin");
-    return isSuperAdminRole(role);
+    return false;
   }
   return data === true;
 };
@@ -67,12 +58,11 @@ export const toPublicUser = async (user: User): Promise<PublicUser> => {
     email: user.email ?? "",
     name: readName(user),
     avatar_url: readAvatarUrl(user),
-    // The phone lives in Supabase auth (auth.users.phone), stored without the "+".
     phone: user.phone ? `+${user.phone}` : "",
     date_of_birth: readString(user, "date_of_birth"),
     email_verified: Boolean(user.email_confirmed_at),
-    role: meta.role,
-    is_super_admin: await readIsSuperAdmin(user.id, meta.role),
+    roles: meta.roles,
+    is_super_admin: await readIsSuperAdmin(user.id),
     is_active: isAccountActive(user.banned_until),
     created_at: user.created_at
   };
@@ -99,25 +89,22 @@ export const signUp = async (input: {
     throw new HttpError(400, error.message);
   }
 
-  // When the email is already registered Supabase returns a user without identities.
   if (data.user && data.user.identities?.length === 0) {
     throw new HttpError(409, "An account with this email already exists", "EMAIL_TAKEN");
   }
 
-  // Every new account starts as a plain user. app_metadata can only be set by the server.
   if (data.user) {
     const { error: roleError } = await supabaseAdmin().auth.admin.updateUserById(
       data.user.id,
-      { app_metadata: buildAppMetadata("user") }
+      { app_metadata: buildAppMetadata(["user"]) }
     );
     if (roleError) {
-      // Reads fall back to role "user", so signup still succeeds.
       logger.error({ error: roleError, userId: data.user.id }, "Could not set default role");
     }
   }
 
   const user = data.user
-    ? await toPublicUser({ ...data.user, app_metadata: buildAppMetadata("user") })
+    ? await toPublicUser({ ...data.user, app_metadata: buildAppMetadata(["user"]) })
     : null;
 
   return { user, session: data.session };
@@ -169,12 +156,10 @@ export const refresh = async (refreshToken: string | undefined) => {
 
 export const logout = async (accessToken: string | undefined) => {
   if (!accessToken) return;
-  // Best effort: revoke the session on Supabase too.
   await supabaseAdmin().auth.admin.signOut(accessToken).catch(() => undefined);
 };
 
 export const forgotPassword = async (email: string) => {
-  // Always succeed so the endpoint can't be used to discover registered emails.
   await supabasePublic().auth.resetPasswordForEmail(email, { redirectTo: resetUrl });
 };
 
@@ -248,5 +233,4 @@ export const resendVerification = async (email: string) => {
   if (error && error.code === "over_email_send_rate_limit") {
     throw new HttpError(429, "Please wait a minute before requesting another email", "RATE_LIMITED");
   }
-  // Any other outcome (unknown email, already verified) is reported as success.
 };

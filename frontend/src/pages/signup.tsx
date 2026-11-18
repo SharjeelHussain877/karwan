@@ -30,7 +30,6 @@ export function SignUpPage() {
           const result = await signUp({ name, email, password })
           if (result.error) return getErrorMessage(result.error)
 
-          // If email confirmation is switched off in Supabase the user is already signed in.
           if (!result.data.data.verificationRequired) {
             navigate("/", { replace: true })
             return ""

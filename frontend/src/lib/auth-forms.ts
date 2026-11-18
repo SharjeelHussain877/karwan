@@ -1,11 +1,6 @@
 import type { FieldValues, Path } from "react-hook-form"
 import { z } from "zod"
 
-/**
- * One place that describes every auth form: its zod schema, fields and copy.
- * <AuthForm /> renders any of them with react-hook-form.
- */
-
 const email = z.string().trim().min(1, "Email is required").email("Enter a valid email address")
 
 const password = z
@@ -21,7 +16,6 @@ export type FieldConfig<TInput extends FieldValues> = {
   type: "text" | "email" | "password" | "tel" | "date"
   placeholder: string
   autoComplete: string
-  /** Helper text under the input; "" for none. */
   description: string
 }
 
@@ -32,7 +26,6 @@ export type FormConfig<TInput extends FieldValues, TOutput> = {
   defaultValues: TInput
 }
 
-/** Keeps field names and default values in sync with each schema. */
 const defineForm = <TInput extends FieldValues, TOutput>(
   config: FormConfig<TInput, TOutput>
 ) => config
@@ -56,7 +49,6 @@ const login = z.object({
 
 const emailOnly = z.object({ email })
 
-// Everything is a string; "" means "not set".
 const profile = z.object({
   name: z.string().trim().min(2, "Name must be at least 2 characters").max(80),
   date_of_birth: z

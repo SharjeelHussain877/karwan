@@ -3,31 +3,24 @@ import "dotenv/config";
 import type { User } from "@supabase/supabase-js";
 
 import { supabaseAdmin } from "../config/supabase.js";
-import { buildAppMetadata, isSuperAdminRole, type Role } from "../modules/auth/roles.js";
+import { buildAppMetadata, type Role } from "../modules/auth/roles.js";
 
-/**
- * Seeds the built-in accounts. Safe to run any number of times: existing
- * accounts are updated (password, role, verified email) instead of duplicated.
- * "super_admin" is never assigned through the app, only here.
- *
- *   npm run seed
- *
- * Change these passwords after the first sign-in.
- */
-type SeedUser = { name: string; email: string; password: string; role: Role };
+type SeedUser = { name: string; email: string; password: string; roles: Role[]; is_super_admin: boolean };
 
 const SEED_USERS: SeedUser[] = [
   {
     name: "Super Admin",
     email: "dev.sharjeelhussain@gmail.com",
     password: "Shar@123",
-    role: "super_admin"
+    roles: ["user"],
+    is_super_admin: true
   },
   {
     name: "Dev",
     email: "fakhiriqbal53@gmail.com",
     password: "Shar@123",
-    role: "dev"
+    roles: ["user", "dev"],
+    is_super_admin: false
   }
 ];
 
@@ -48,7 +41,7 @@ const seedUser = async (seed: SeedUser): Promise<"created" | "updated"> => {
     password: seed.password,
     email_confirm: true,
     user_metadata: { name: seed.name },
-    app_metadata: buildAppMetadata(seed.role)
+    app_metadata: buildAppMetadata(seed.roles)
   };
 
   const existing = await findByEmail(seed.email);
@@ -65,11 +58,9 @@ const seedUser = async (seed: SeedUser): Promise<"created" | "updated"> => {
   });
   if (error) throw error;
 
-  // New seed accounts start with is_super_admin on. An existing account keeps
-  // whatever it was toggled to. (The column is only reachable through SQL.)
   const { error: flagError } = await supabaseAdmin().rpc("admin_set_is_super_admin", {
     target: data.user.id,
-    value: isSuperAdminRole(seed.role)
+    value: seed.is_super_admin
   });
   if (flagError) {
     console.warn(`  could not set is_super_admin for ${seed.email}: run the SQL migration first`);
@@ -80,7 +71,7 @@ const seedUser = async (seed: SeedUser): Promise<"created" | "updated"> => {
 const run = async () => {
   for (const seed of SEED_USERS) {
     const result = await seedUser(seed);
-    console.log(`${result.padEnd(8)} ${seed.email}  role=${seed.role}  is_super_admin=${isSuperAdminRole(seed.role)}`);
+    console.log(`${result.padEnd(8)} ${seed.email}  roles=${seed.roles.join(",")}  is_super_admin=${seed.is_super_admin}`);
   }
 };
 

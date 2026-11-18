@@ -6,7 +6,6 @@ import { baseApi } from "./api"
 
 type AuthState = {
   user: User | null
-  /** True once a login succeeded in this browser; gates /auth/me and /auth/refresh. */
   sessionActive: boolean
 }
 
@@ -20,7 +19,6 @@ const slice = createSlice({
       state.user = null
       state.sessionActive = false
     },
-    /** The user pressed Sign out (whether or not the server call worked). */
     signedOut: (state) => {
       state.user = null
       state.sessionActive = false
@@ -38,7 +36,6 @@ const slice = createSlice({
         state.sessionActive = true
       })
       .addMatcher(endpoints.signUp.matchFulfilled, (state, { payload }) => {
-        // Only signed in right away when email confirmation is switched off.
         if (!payload.data.verificationRequired) {
           state.user = payload.data.user
           state.sessionActive = payload.data.user !== null

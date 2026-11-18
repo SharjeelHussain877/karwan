@@ -3,7 +3,6 @@ import type { ZodType } from "zod";
 
 import { HttpError } from "../utils/http-error.js";
 
-/** Validates req.body against a zod schema and replaces it with the parsed value. */
 export const validate =
   (schema: ZodType) => (req: Request, _res: Response, next: NextFunction) => {
     const result = schema.safeParse(req.body);

@@ -12,9 +12,7 @@ import type { FieldConfig, FormConfig } from "@/lib/auth-forms"
 
 type AuthFormProps<TInput extends FieldValues, TOutput> = {
   config: FormConfig<TInput, TOutput>
-  /** Resolve with an error message to show above the button, or "" on success. */
   onSubmit: (values: TOutput) => Promise<string>
-  /** Shows a Cancel button next to the submit button; null for none. */
   onCancel: (() => void) | null
 }
 
@@ -40,7 +38,6 @@ function renderInput<TInput extends FieldValues>(field: FieldConfig<TInput>, pro
   return field.type === "password" ? <PasswordInput {...props} /> : <Input {...props} type={field.type} />
 }
 
-/** Date fields use the shadcn calendar instead of the browser's date input. */
 function renderDate(
   field: { placeholder: string },
   id: string,

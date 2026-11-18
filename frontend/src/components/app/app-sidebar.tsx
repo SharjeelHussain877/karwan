@@ -32,14 +32,12 @@ type NavItem = {
   icon: ComponentType<{ className?: string }>
 }
 
-/** The three default options. */
 const NAV_ITEMS: NavItem[] = [
   { title: "Dashboard", to: "/", icon: LayoutDashboardIcon },
   { title: "Campaigns", to: "/campaigns", icon: MegaphoneIcon },
   { title: "Connected accounts", to: "/accounts", icon: PlugIcon },
 ]
 
-/** Listed with the others, but only for dev / super_admin accounts whose is_super_admin is on. */
 const USERS_ITEM: NavItem = { title: "Users", to: "/users", icon: UsersIcon }
 
 export function AppSidebar() {
@@ -47,8 +45,6 @@ export function AppSidebar() {
   const user = useAppSelector((state) => state.auth.user)
   const { isMobile, setOpenMobile, toggleSidebar } = useSidebar()
 
-  // On phones, picking a menu item closes the sidebar (the hamburger brings it back).
-  // On bigger screens it stays open.
   const closeSidebarOnMobile = () => {
     if (isMobile) setOpenMobile(false)
   }
@@ -99,7 +95,6 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
 
-      {/* Profile: clicking it opens the settings page. */}
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>

@@ -14,7 +14,6 @@ function getInitials(name: string, email: string): string {
 
 type Props = { user: Pick<User, "name" | "email" | "avatar_url">; className: string }
 
-/** The profile photo, or the user's initials when there is none. */
 export function UserAvatar({ user, className }: Props) {
   if (user.avatar_url !== "") {
     return (

@@ -25,10 +25,6 @@ function toBlob(canvas: HTMLCanvasElement, type: string): Promise<Blob> {
   })
 }
 
-/**
- * Cuts `area` (pixels of the original image) out of `src` and returns it as a File.
- * The result is scaled down so its width is at most `maxSize`.
- */
 export async function getCroppedFile(
   src: string,
   area: Area,
@@ -50,7 +46,6 @@ export async function getCroppedFile(
   context.imageSmoothingQuality = "high"
   context.drawImage(image, area.x, area.y, area.width, area.height, 0, 0, width, height)
 
-  // Keep PNG and WebP as they are; anything else becomes JPEG.
   const type = original.type in OUTPUT_TYPES ? original.type : "image/jpeg"
   const blob = await toBlob(canvas, type)
 

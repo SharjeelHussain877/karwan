@@ -23,21 +23,18 @@ const createRateLimiter = (
   });
 };
 
-// General API: 100 requests / 15 minutes
 export const globalLimiter = createRateLimiter(
   15 * 60 * 1000,
   100,
   "requests"
 );
 
-// Authentication: 5 requests / 15 minutes
 export const authLimiter = createRateLimiter(
   15 * 60 * 1000,
   5,
   "authentication attempts"
 );
 
-// Sensitive operations: 3 requests / 15 minutes
 export const sensitiveLimiter = createRateLimiter(
   15 * 60 * 1000,
   3,

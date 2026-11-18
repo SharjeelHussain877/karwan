@@ -9,11 +9,6 @@ export const password = z
   .regex(/[a-zA-Z]/, "Password must contain a letter")
   .regex(/[0-9]/, "Password must contain a number");
 
-/**
- * Sign up takes exactly name, email and password. `.strict()` makes any other field
- * (role, app_metadata, is_super_admin, ...) a 400, so a role can never ride along from
- * a client. The role of a new account is always set by the server (see service.signUp).
- */
 export const signUpSchema = z
   .object({
     name: z.string().trim().min(2, "Name must be at least 2 characters").max(80),
@@ -29,7 +24,6 @@ export const loginSchema = z.object({
 
 export const emailSchema = z.object({ email });
 
-// Absent tokens are sent as empty strings so every field is always a string.
 export const resetPasswordSchema = z
   .object({
     accessToken: z.string(),

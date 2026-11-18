@@ -1,4 +1,3 @@
-// ---------- Auth ----------
 
 const authUserSchema = {
   type: "object",
@@ -16,19 +15,19 @@ const authUserSchema = {
     email_verified: { type: "boolean", example: true },
     is_active: { type: "boolean", example: true, description: "false while the account is deactivated and cannot sign in." },
     created_at: { type: "string", format: "date-time" },
-    role: {
-      type: "string",
-      enum: ["user", "dev", "super_admin"],
-      description: "Stored in Supabase app_metadata (`role` only). New accounts are always `user`.",
-      example: "user"
+    roles: {
+      type: "array",
+      items: { type: "string", enum: ["user", "dev"] },
+      description: "Stored in Supabase app_metadata (`roles` only). Always contains `user`; `dev` is optional. New accounts are `[\"user\"]`.",
+      example: ["user"]
     },
     is_super_admin: {
       type: "boolean",
-      description: "The auth.users.is_super_admin column. Toggled from the Users page, independent of `role`. Read through a SQL function (see the migration).",
+      description: "The auth.users.is_super_admin column. When true the account has super admin access (can open the Users page and change other users). It is not a role: toggled from the Users page, independent of `roles`. Read through a SQL function (see the migration).",
       example: false
     }
   },
-  required: ["id", "email", "name", "avatar_url", "phone", "date_of_birth", "email_verified", "role", "is_super_admin", "is_active", "created_at"]
+  required: ["id", "email", "name", "avatar_url", "phone", "date_of_birth", "email_verified", "roles", "is_super_admin", "is_active", "created_at"]
 };
 
 const errorSchema = {
@@ -93,8 +92,6 @@ const rateLimited = errorResponse("Too many requests.", "RATE_LIMITED");
 const sessionCookies =
   "Sets httpOnly `access_token` and `refresh_token` cookies. The browser sends them back automatically (use `withCredentials: true`).";
 
-// ---------- Users (admin) ----------
-
 const managedUserSchema = {
   type: "object",
   properties: {
@@ -102,12 +99,12 @@ const managedUserSchema = {
     email: { type: "string", format: "email", example: "jane@example.com" },
     name: { type: "string", example: "Jane Doe" },
     avatar_url: { type: "string", description: "Empty when none." },
-    role: { type: "string", enum: ["user", "dev", "super_admin"], example: "user" },
+    roles: { type: "array", items: { type: "string", enum: ["user", "dev"] }, example: ["user", "dev"] },
     is_super_admin: { type: "boolean", example: false },
     is_active: { type: "boolean", example: true, description: "false while the account is deactivated (banned) and cannot sign in." },
     created_at: { type: "string", format: "date-time" }
   },
-  required: ["id", "email", "name", "avatar_url", "role", "is_super_admin", "is_active", "created_at"]
+  required: ["id", "email", "name", "avatar_url", "roles", "is_super_admin", "is_active", "created_at"]
 };
 
 const userIdParam = {
@@ -125,7 +122,7 @@ const userPaths = {
       tags: ["User"],
       summary: "List users (paged)",
       description:
-        "Everyone except the signed-in user, oldest account first, 30 per page. Pass the `nextOffset` of one response as `offset` of the next request until it is `null`. Allowed for a `dev` or `super_admin` whose `is_super_admin` is on. Accounts with the `super_admin` role are only listed for a `super_admin`; other roles never see them.",
+        "Everyone except the signed-in user, oldest account first, 30 per page. Pass the `nextOffset` of one response as `offset` of the next request until it is `null`. Allowed only while the signed-in account has `is_super_admin` on.",
       security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       parameters: [
         { name: "offset", in: "query", schema: { type: "integer", minimum: 0, default: 0 } },
@@ -161,7 +158,7 @@ const userPaths = {
       tags: ["User"],
       summary: "Read one user",
       description:
-        "The user is the `id` in the URL. Your own id always works. Someone else's needs the same access as the list (`dev` or `super_admin` with `is_super_admin` on), and a `super_admin` account answers 404 to every other role.",
+        "The user is the `id` in the URL. Your own id always works. Someone else's needs the same access as the list (`is_super_admin` on).",
       security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       parameters: [userIdParam],
       responses: {
@@ -176,9 +173,9 @@ const userPaths = {
       summary: "Update one user",
       description:
         "The user is the `id` in the URL; the payload is what to change (send only those fields, as JSON, or as `multipart/form-data` when there is an `avatar` image).\n\n" +
-        "**Your own id:** you may change `name`, `date_of_birth`, `phone` and `avatar`. Your own `role`, `is_super_admin` and `is_active` can never be changed.\n\n" +
-        "**Someone else's id:** only the `super_admin` (with `is_super_admin` on) may, for any field. `role` can be `user` or `dev`: `super_admin` is never assigned through the API, and a super admin account can't be changed by anyone else. Values equal to the current ones are ignored.\n\n" +
-        "Storage: `name`, `date_of_birth` and the photo URL go in the user's auth metadata, `phone` in the auth user's own `phone` (a saved phone can be replaced, not removed), `role` in `app_metadata`, `is_active` as a ban, `is_super_admin` in `auth.users.is_super_admin`. The `avatar` image (JPG, PNG or WebP, max 2 MB) replaces `<user id>/avatar` in the public `profile` bucket.",
+        "**Your own id:** you may change `name`, `date_of_birth`, `phone` and `avatar`. Your own `roles`, `is_super_admin` and `is_active` can never be changed.\n\n" +
+        "**Someone else's id:** only an account with `is_super_admin` on may, for any field. `roles` is a list of `user` and optionally `dev`: `user` is always kept, and there is no `super_admin` role (use `is_super_admin`). Values equal to the current ones are ignored.\n\n" +
+        "Storage: `name`, `date_of_birth` and the photo URL go in the user's auth metadata, `phone` in the auth user's own `phone` (a saved phone can be replaced, not removed), `roles` in `app_metadata`, `is_active` as a ban, `is_super_admin` in `auth.users.is_super_admin`. The `avatar` image (JPG, PNG or WebP, max 2 MB) replaces `<user id>/avatar` in the public `profile` bucket.",
       security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       parameters: [userIdParam],
       requestBody: {
@@ -191,7 +188,7 @@ const userPaths = {
                 name: { type: "string", minLength: 2, maxLength: 80, example: "Jane Doe" },
                 date_of_birth: { type: "string", description: "YYYY-MM-DD, a past date. Empty to clear.", example: "1995-04-21" },
                 phone: { type: "string", description: "Country code first, like +92 300 1234567.", example: "+92 300 1234567" },
-                role: { type: "string", enum: ["user", "dev"], example: "dev" },
+                roles: { type: "array", items: { type: "string", enum: ["user", "dev"] }, description: "`user` is always kept; add `dev` for the optional dev role.", example: ["user", "dev"] },
                 is_super_admin: { type: "boolean", example: true },
                 is_active: { type: "boolean", example: true, description: "false deactivates the account: it can no longer sign in." }
               }

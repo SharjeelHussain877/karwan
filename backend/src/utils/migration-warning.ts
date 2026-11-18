@@ -2,10 +2,6 @@ import logger from "./logger.js";
 
 const warned = new Set<string>();
 
-/**
- * The SQL functions from supabase/migrations are missing until that file has been run.
- * Say so once per server start instead of on every request.
- */
 export const warnMigrationMissing = (fn: string): void => {
   if (warned.has(fn)) return;
   warned.add(fn);

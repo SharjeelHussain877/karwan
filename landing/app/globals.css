@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* Mountain palette (slate blue, pine, snow, sunrise): light by default, dark follows the system */
 :root {
   --background: #f4f7f9;
   --foreground: #16222d;
@@ -17,7 +16,6 @@
   --glow-2: rgba(224, 137, 77, 0.2);
 }
 
-/* Dark: explicit choice, or system preference when nothing is chosen */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --background: #0c131a;
@@ -90,14 +88,12 @@ body {
   overflow-wrap: break-word;
 }
 
-/* Long URLs and emails must wrap instead of widening the page on phones */
 main a,
 main li,
 main p {
   overflow-wrap: anywhere;
 }
 
-/* Growth animations for the SVG illustrations */
 @keyframes draw {
   0% { stroke-dashoffset: 1; }
   60%, 100% { stroke-dashoffset: 0; }
@@ -141,7 +137,6 @@ main p {
 .grow-x { transform-box: fill-box; transform-origin: left; animation: grow-x 4s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .grow-x { animation: none; } }
 
-/* Scroll reveal: content rises from the bottom as it enters the viewport */
 [data-js] [data-reveal] {
   opacity: 0;
   transform: translateY(48px);
@@ -152,7 +147,6 @@ main p {
   transform: none;
 }
 
-/* Virtualization: skip rendering off-screen sections, and pause animations that are not visible */
 .cv {
   content-visibility: auto;
   contain-intrinsic-size: auto 700px;
@@ -162,8 +156,6 @@ main p {
   animation-play-state: paused !important;
 }
 
-/* Hero fades back as you scroll (--p is 0 → 1, set by the layout script).
-   Only where the hero is pinned (md and up); on phones it scrolls normally. */
 @media (min-width: 768px) {
   [data-hero-content] {
     opacity: calc(1 - var(--p, 0) * 1.2);
@@ -178,7 +170,6 @@ main p {
   [data-hero-content] { transform: none; filter: none; }
 }
 
-/* Cards */
 .card {
   position: relative;
   border-radius: 1.75rem;

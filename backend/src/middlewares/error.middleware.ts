@@ -40,8 +40,6 @@ import type {
     res.status(statusCode).json({
       success: false,
       code,
-      // HttpError messages are written by us for the user, so they are always safe to show.
-      // Anything else that fails with a 5xx stays generic.
       message:
         statusCode >= 500 && !(err instanceof HttpError)
           ? "Internal Server Error"

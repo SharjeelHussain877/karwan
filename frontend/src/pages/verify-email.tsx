@@ -27,7 +27,6 @@ export function VerifyEmailPage() {
   const email = searchParams.get("email") ?? ""
   const [cooldown, setCooldown] = useState(0)
 
-  // 1) Came from the email link: verify, then land on the home page.
   useEffect(() => {
     if (!hasToken || started.current) return
     started.current = true
@@ -69,7 +68,6 @@ export function VerifyEmailPage() {
         ? `We sent a verification link to ${email}. Open it to finish creating your account.`
         : "Open the verification link we emailed you to finish creating your account."
 
-  // 2) Waiting for the user to open the email (or the link failed): offer a resend.
   return (
     <AuthLayout
       title={error !== "" ? "Verification failed" : "Verify your email"}

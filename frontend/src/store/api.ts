@@ -2,7 +2,7 @@ import { createApi } from "@reduxjs/toolkit/query/react"
 
 import type {
   EmailBody,
-  AssignableRole,
+  Role,
   LoginBody,
   ManagedUserResponse,
   MessageResponse,
@@ -31,7 +31,6 @@ export const baseApi = createApi({
     login: build.mutation<UserResponse, LoginBody>({
       query: (body) => ({ url: "/auth/login", method: "POST", body }),
     }),
-    // PATCH /user/:id with the details and, when there is one, the new photo (multipart).
     updateProfile: build.mutation<UserResponse, ProfileBody>({
       query: ({ id, name, date_of_birth, avatar }) => {
         const form = new FormData()
@@ -41,7 +40,6 @@ export const baseApi = createApi({
         return { url: `/user/${id}`, method: "PATCH", body: form }
       },
     }),
-    // Users load 30 at a time; the next page starts at the previous page's nextOffset.
     listUsers: build.infiniteQuery<UsersPageResponse, void, number>({
       infiniteQueryOptions: {
         initialPageParam: 0,
@@ -53,12 +51,11 @@ export const baseApi = createApi({
         body: null,
       }),
     }),
-    // PATCH /user/:id: the user is the id in the URL; the payload is what to change (as super_admin).
-    updateUser: build.mutation<ManagedUserResponse, { id: string; role: AssignableRole; is_super_admin: boolean; is_active: boolean }>({
-      query: ({ id, role, is_super_admin, is_active }) => ({
+    updateUser: build.mutation<ManagedUserResponse, { id: string; roles: Role[]; is_super_admin: boolean; is_active: boolean }>({
+      query: ({ id, roles, is_super_admin, is_active }) => ({
         url: `/user/${id}`,
         method: "PATCH",
-        body: { role, is_super_admin, is_active },
+        body: { roles, is_super_admin, is_active },
       }),
     }),
     logout: build.mutation<MessageResponse, void>({

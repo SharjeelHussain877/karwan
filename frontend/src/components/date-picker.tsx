@@ -9,7 +9,6 @@ import { cn } from "@/lib/utils"
 
 type Props = {
   id: string
-  /** YYYY-MM-DD, or "" when nothing is picked. */
   value: string
   placeholder: string
   invalid: boolean
@@ -23,17 +22,11 @@ const EARLIEST_YEAR = 1900
 const DEFAULT_MONTH = new Date(2000, 0, 1)
 const MONTH_NAMES = Array.from({ length: 12 }, (_, index) => format(new Date(2000, index, 1), "MMM"))
 
-/** "2000-04-21" -> a local Date, or null for "". */
 function parseDate(value: string): Date | null {
   const [year, month, day] = value.split("-").map(Number)
   return value === "" ? null : new Date(year, month - 1, day)
 }
 
-/**
- * shadcn Calendar in a popover. The button is full width and the calendar matches it.
- * Month and year are picked inside the calendar itself: tap either one to swap the
- * days for a grid of months or years. Only today and earlier dates can be chosen.
- */
 export function DatePicker({ id, value, placeholder, invalid, onChange, onBlur }: Props) {
   const [open, setOpen] = useState(false)
   const [view, setView] = useState<View>("days")
@@ -78,7 +71,6 @@ export function DatePicker({ id, value, placeholder, invalid, onChange, onBlur }
       </PopoverTrigger>
 
       <PopoverContent align="start" className="w-(--anchor-width) min-w-72 gap-0 p-0">
-        {/* Header: arrows move month by month; month and year are boxed buttons. */}
         <div className="flex items-center gap-2 p-2">
           <Button
             type="button"
@@ -139,7 +131,6 @@ export function DatePicker({ id, value, placeholder, invalid, onChange, onBlur }
               onChange(format(next, "yyyy-MM-dd"))
               setOpen(false)
             }}
-            // Stretches to the input's width while the day rows keep a fixed height.
             className="w-full pt-0 [--cell-size:--spacing(9)] [&_button[data-day]]:aspect-auto [&_button[data-day]]:h-full"
             classNames={{
               month_caption: "hidden",

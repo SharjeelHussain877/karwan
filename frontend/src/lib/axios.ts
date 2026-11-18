@@ -5,14 +5,13 @@ export const API_URL: string = import.meta.env.VITE_API_URL
 
 let onSessionExpired: () => void = () => {}
 
-/** The store registers this so a failed refresh can sign the user out in the UI. */
 export function setSessionExpiredHandler(handler: () => void): void {
   onSessionExpired = handler
 }
 
 export const api = axios.create({
   baseURL: API_URL,
-  withCredentials: true, // the backend keeps the session in httpOnly cookies
+  withCredentials: true,
   headers: { "Content-Type": "application/json" },
 })
 
@@ -30,7 +29,6 @@ const NO_REFRESH: string[] = [
 let refreshing: Promise<AxiosResponse> | null = null
 const replayed = new WeakSet<InternalAxiosRequestConfig>()
 
-// On 401, try one silent refresh then replay the request.
 api.interceptors.response.use(
   (response) => response,
   async (error) => {

@@ -11,7 +11,6 @@ const readId = (req: Request): string => {
   return parsed.data;
 };
 
-/** GET /user */
 export const list = async (req: Request, res: Response) => {
   const query = listQuerySchema.safeParse(req.query);
   if (!query.success) throw new HttpError(400, "offset and limit must be numbers", "VALIDATION_ERROR");
@@ -20,13 +19,11 @@ export const list = async (req: Request, res: Response) => {
   res.json({ success: true, data: page });
 };
 
-/** GET /user/:id */
 export const getOne = async (req: Request, res: Response) => {
   const user = await service.getUser(getAccessToken(req), readId(req));
   res.json({ success: true, data: { user } });
 };
 
-/** PATCH /user/:id (JSON, or multipart when there is an avatar) */
 export const update = async (req: Request, res: Response) => {
   const file = req.file;
   const changes: service.UserChanges = {

@@ -11,7 +11,6 @@ import * as service from "./service.js";
 export const signUp = async (req: Request, res: Response) => {
   const { user, session } = await service.signUp(req.body);
 
-  // Only when Supabase email confirmation is turned off does signup return a session.
   if (session) setSessionCookies(res, session);
 
   res.status(201).json({

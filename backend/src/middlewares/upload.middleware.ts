@@ -18,7 +18,6 @@ const upload = multer({
   }
 });
 
-/** Reads an optional image from the `avatar` field of a multipart form into req.file. */
 export const optionalAvatar = (req: Request, res: Response, next: NextFunction) => {
   upload.single("avatar")(req, res, (error: unknown) => {
     if (error instanceof multer.MulterError) {

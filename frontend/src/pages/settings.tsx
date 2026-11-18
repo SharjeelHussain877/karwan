@@ -32,7 +32,7 @@ import { useAppDispatch, useAppSelector } from "@/store"
 import { signedOut } from "@/store/auth-slice"
 
 const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp"]
-const MAX_ORIGINAL_BYTES = 15 * 1024 * 1024 // photos are shrunk when cropped
+const MAX_ORIGINAL_BYTES = 15 * 1024 * 1024
 const AVATAR_SIZE = 512
 
 function formatDate(value: string): string {
@@ -50,7 +50,6 @@ export function SettingsPage() {
   const fileInput = useRef<HTMLInputElement>(null)
   const [photoError, setPhotoError] = useState("")
   const [editing, setEditing] = useState(false)
-  // A cropped photo waits here until Save; it is sent together with the other details.
   const [newPhoto, setNewPhoto] = useState<{ file: File; previewUrl: string } | null>(null)
 
   if (user === null) return null
@@ -68,7 +67,6 @@ export function SettingsPage() {
 
   const signOut = async () => {
     await logout()
-    // Clear everything on this browser even if the server call failed.
     dispatch(signedOut())
     navigate("/login", { replace: true })
   }
@@ -85,7 +83,6 @@ export function SettingsPage() {
       return
     }
 
-    // Square crop first; the cropped image is what gets saved.
     const cropped = await cropImage(file, {
       aspect: 1,
       title: "Crop your photo",
@@ -98,8 +95,11 @@ export function SettingsPage() {
     setNewPhoto({ file: cropped, previewUrl: URL.createObjectURL(cropped) })
   }
 
-  // A plain user is never shown a role. Only dev and super_admin accounts see theirs.
-  const roleRow = user.role === "user" ? [] : [{ label: "Role", value: user.role }]
+  const accessLabels = [
+    ...(user.roles.includes("dev") ? ["Dev"] : []),
+    ...(user.is_super_admin ? ["Super admin"] : []),
+  ]
+  const roleRow = accessLabels.length === 0 ? [] : [{ label: "Role", value: accessLabels.join(", ") }]
 
   const details = [
     { label: "Name", value: user.name !== "" ? user.name : "Not set" },
@@ -109,7 +109,6 @@ export function SettingsPage() {
     { label: "Email verified", value: user.email_verified ? "Yes" : "No" },
   ]
 
-  // While a new photo is waiting, show it instead of the saved one.
   const shownUser = newPhoto !== null ? { ...user, avatar_url: newPhoto.previewUrl } : user
 
   return (
@@ -138,7 +137,6 @@ export function SettingsPage() {
           <div className="flex items-center gap-4">
             <UserAvatar user={shownUser} className="size-20 text-xl" />
 
-            {/* Changing the photo is part of editing. */}
             {editing && (
               <div className="flex flex-col gap-2">
                 <input
@@ -186,7 +184,6 @@ export function SettingsPage() {
                 }}
                 onCancel={stopEditing}
                 onSubmit={async (values) => {
-                  // Details and the new photo (if any) go in one request.
                   const result = await updateProfile({
                     id: user.id,
                     ...values,
@@ -238,7 +235,6 @@ export function SettingsPage() {
                   You will need to sign in again to manage your campaigns.
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              {/* Buttons sit right in the body; no separate footer bar. */}
               <div className="flex justify-end gap-2">
                 <AlertDialogCancel disabled={loggingOut}>Cancel</AlertDialogCancel>
                 <AlertDialogAction onClick={signOut} disabled={loggingOut}>

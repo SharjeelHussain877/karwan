@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-/* ---------- Google & Meta marks ---------- */
-
 function GoogleMark({ x = 0, y = 0, size = 24 }: { x?: number; y?: number; size?: number }) {
   return (
     <g transform={`translate(${x} ${y}) scale(${size / 48})`}>
@@ -50,8 +48,6 @@ function MetaIcon({ className = "h-5 w-8" }: { className?: string }) {
   );
 }
 
-/* ---------- Animated SVG illustrations (growth over time) ---------- */
-
 const HeroArt = (
   <svg viewBox="0 0 800 440" className="mx-auto h-auto w-full" role="img" aria-label="Dashboard where campaigns are created and ads are published">
     <defs>
@@ -65,7 +61,6 @@ const HeroArt = (
       </linearGradient>
     </defs>
 
-    {/* window */}
     <rect x="8" y="8" width="784" height="424" rx="22" fill="var(--surface)" stroke="var(--line)" strokeWidth="2" />
     <line x1="8" x2="792" y1="52" y2="52" stroke="var(--line)" />
     {[0, 1, 2].map((i) => (
@@ -73,7 +68,6 @@ const HeroArt = (
     ))}
     <rect x="300" y="21" width="200" height="18" rx="9" fill="var(--accent-soft)" />
 
-    {/* sidebar */}
     <rect x="8" y="53" width="150" height="379" fill="var(--accent-soft)" fillOpacity="0.5" />
     {[0, 1, 2, 3, 4].map((i) => (
       <g key={i}>
@@ -82,7 +76,6 @@ const HeroArt = (
       </g>
     ))}
 
-    {/* KPI cards */}
     {[0, 1, 2].map((i) => (
       <g key={i}>
         <rect x={184 + i * 200} y="72" width="184" height="84" rx="14" fill="var(--background)" stroke="var(--line)" />
@@ -92,7 +85,6 @@ const HeroArt = (
       </g>
     ))}
 
-    {/* growth chart */}
     <rect x="184" y="176" width="384" height="234" rx="14" fill="var(--background)" stroke="var(--line)" />
     {[226, 266, 306, 346].map((y) => (
       <line key={y} x1="204" x2="548" y1={y} y2={y} stroke="var(--line)" strokeDasharray="4 6" />
@@ -108,7 +100,6 @@ const HeroArt = (
       <circle cx="540" cy="206" r="7" fill="var(--accent)" stroke="var(--surface)" strokeWidth="3" />
     </g>
 
-    {/* campaigns list */}
     <rect x="588" y="176" width="190" height="234" rx="14" fill="var(--background)" stroke="var(--line)" />
     <rect x="606" y="194" width="70" height="9" rx="4.5" fill="var(--line)" />
     {[0, 1, 2].map((i) => (
@@ -211,8 +202,6 @@ const TrustArt = (
   </svg>
 );
 
-/* ---------- Content ---------- */
-
 const features = [
   { title: "Secure OAuth sign-in", body: "Connect Meta and Google with the official OAuth login. No passwords to share, and you stay in control.", art: SafeArt },
   { title: "One simple dashboard", body: "Every campaign and ad from both platforms in one clean place, so everything feels smooth and easy.", art: ReadWriteArt },
@@ -228,7 +217,6 @@ const steps = [
 export default function Home() {
   return (
     <main className="flex-1">
-      {/* Hero: stays pinned, zooms out and fades away while you scroll, then the rest rises in */}
       <section data-hero suppressHydrationWarning className="relative md:h-[150svh]">
         <div className="isolate overflow-hidden md:sticky md:top-0 md:h-svh">
         <div className="pointer-events-none absolute inset-0 -z-10">
@@ -273,14 +261,12 @@ export default function Home() {
       </section>
 
       <div className="relative z-10 md:-mt-[55svh]">
-      {/* Dashboard preview */}
       <section className="px-5 pt-6 sm:px-6 md:pt-0">
         <div data-reveal suppressHydrationWarning className="mx-auto w-full max-w-4xl rounded-3xl border border-line bg-surface p-2 shadow-sm sm:p-3">
           {HeroArt}
         </div>
       </section>
 
-      {/* Features */}
       <section className="cv px-5 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
           {features.map((f, i) => (
@@ -295,7 +281,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* How it works */}
       <section id="how-it-works" className="cv px-5 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-6xl">
           <div data-reveal suppressHydrationWarning className="mx-auto max-w-2xl text-center">
@@ -319,7 +304,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trust */}
       <section className="cv px-5 py-14 sm:px-6 sm:py-20">
         <div data-reveal suppressHydrationWarning className="mx-auto max-w-4xl rounded-[2rem] border border-line bg-gradient-to-br from-accent-soft via-surface to-surface p-6 text-center sm:p-16">
           {TrustArt}
